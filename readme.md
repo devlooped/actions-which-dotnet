@@ -39,6 +39,7 @@ jobs:
           delete-branch: true
           labels: dependencies
           title: "⚙ Update dotnet versions"
+          body: "Update dotnet versions"
           commit-message: "Update dotnet versions"
 ```
 
