@@ -1,5 +1,17 @@
 # Changelog
 
+## [v1.1](https://github.com/devlooped/actions-which-dotnet/tree/v1.1) (2025-05-27)
+
+[Full Changelog](https://github.com/devlooped/actions-which-dotnet/compare/v1...v1.1)
+
+**Implemented enhancements:**
+
+- Sort versions ascending in JSON [\#1](https://github.com/devlooped/actions-which-dotnet/pull/1) ([kzu](https://github.com/kzu))
+
+## [v1](https://github.com/devlooped/actions-which-dotnet/tree/v1) (2025-05-27)
+
+[Full Changelog](https://github.com/devlooped/actions-which-dotnet/compare/v1.0...v1)
+
 ## [v1.0](https://github.com/devlooped/actions-which-dotnet/tree/v1.0) (2025-05-27)
 
 [Full Changelog](https://github.com/devlooped/actions-which-dotnet/compare/5d646595541042ca3d701eeb1777af0039ca67bb...v1.0)
