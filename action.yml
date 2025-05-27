@@ -1,0 +1,54 @@
+name: which-dotnet
+author: Daniel Cazzulino
+description: Determines which versions of .NET are in use
+
+inputs:
+  file:  
+    description: 'The output JSON file containing the versions'
+    required: true
+    default: './.github/workflows/dotnet.json'
+
+branding:
+  icon: settings
+  color: "purple"
+
+runs:
+  using: composite
+  steps:
+    - name: 🔎 dotnet
+      shell: pwsh
+      run: |
+        # Locate all .NET project files in the repository
+        $projFiles = Get-ChildItem -Recurse -Include *.*proj
+        $versions = New-Object System.Collections.Generic.HashSet[string]
+
+        foreach ($file in $projFiles) {
+          try {
+            $tfOutput = dotnet msbuild $file.FullName -getProperty:TargetFramework
+            if ([string]::IsNullOrWhiteSpace($tfOutput)) {
+              $tfOutput = dotnet msbuild $file.FullName -getProperty:TargetFrameworks
+            }
+            if ($tfOutput) {
+              $frameworks = $tfOutput.Trim().Split(';')
+              foreach ($framework in $frameworks) {
+                if ($framework -match '^net(\d+)\.\d+$') {
+                  $versions.Add("$($Matches[1]).x") | Out-Null
+                }
+                elseif ($framework -match '^netcoreapp(\d+)\.\d+$') {
+                  $versions.Add("$($Matches[1]).x") | Out-Null
+                }
+              }
+            }
+          } catch {
+            continue
+          }            
+        }
+        # Write the versions to the output file
+        if ($versions.Count -eq 0) {
+          Write-Host "No .NET versions found in the repository."
+        } else {
+          Write-Host "Found .NET versions:"
+          Write-Host $($versions | ConvertTo-Json -AsArray)
+          $versions | ConvertTo-Json -AsArray | Out-File -FilePath ${{ inputs.file }} -Encoding utf8 -Force
+          Write-Host "Versions written to ${{ inputs.file }}"
+        }
