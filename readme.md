@@ -9,7 +9,7 @@ use in the current repository, so the [dotnet-env](https://github.com/devlooped/
 can automatically set up the environment via a single step.
 
 
-```
+```yml
 on:
   workflow_dispatch:
   push:
@@ -53,7 +53,15 @@ used by dotnet projects (`**/*.*proj) in the entire repository, such as:
 ]
 ```
 
-The default JSON output location is `./.github/workflows/dotnet.json`.
+The default JSON output location is `./.github/workflows/dotnet.json`. This can 
+be changed by specifying the `versions` parameter:
+
+```yml
+    - name: 🤌 dotnet
+      uses: devlooped/actions-which-dotnet@v1
+      with:
+        versions: ./dotnet.json
+```
 
 <!-- include https://github.com/devlooped/sponsors/raw/main/footer.md -->
 # Sponsors 

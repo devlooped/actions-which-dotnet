@@ -3,7 +3,7 @@ author: Daniel Cazzulino
 description: Determines which versions of .NET are in use
 
 inputs:
-  file:  
+  versions:  
     description: 'The output JSON file containing the versions'
     required: true
     default: './.github/workflows/dotnet.json'
@@ -49,6 +49,6 @@ runs:
         } else {
           Write-Host "Found .NET versions:"
           Write-Host $($versions | ConvertTo-Json -AsArray)
-          $versions | ConvertTo-Json -AsArray | Out-File -FilePath ${{ inputs.file }} -Encoding utf8 -Force
-          Write-Host "Versions written to ${{ inputs.file }}"
+          $versions | ConvertTo-Json -AsArray | Out-File -FilePath ${{ inputs.versions }} -Encoding utf8 -Force
+          Write-Host "Versions written to ${{ inputs.versions }}"
         }
