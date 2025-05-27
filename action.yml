@@ -6,7 +6,7 @@ inputs:
   versions:  
     description: 'The output JSON file containing the versions'
     required: true
-    default: './.github/workflows/dotnet.json'
+    default: './.github/dotnet.json'
 
 branding:
   icon: settings
