@@ -54,7 +54,7 @@ used by dotnet projects (`**/*.*proj) in the entire repository, such as:
 ]
 ```
 
-The default JSON output location is `./.github/workflows/dotnet.json`. This can 
+The default JSON output location is `./.github/dotnet.json`. This can 
 be changed by specifying the `versions` parameter:
 
 ```yml
