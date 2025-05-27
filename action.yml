@@ -20,7 +20,7 @@ runs:
       run: |
         # Locate all .NET project files in the repository
         $projFiles = Get-ChildItem -Recurse -Include *.*proj
-        $versions = New-Object System.Collections.Generic.HashSet[string]
+        $versions = New-Object System.Collections.Generic.HashSet[int]
 
         foreach ($file in $projFiles) {
           try {
@@ -32,10 +32,10 @@ runs:
               $frameworks = $tfOutput.Trim().Split(';')
               foreach ($framework in $frameworks) {
                 if ($framework -match '^net(\d+)\.\d+$') {
-                  $versions.Add("$($Matches[1]).x") | Out-Null
+                  $versions.Add([int]$Matches[1]) | Out-Null
                 }
                 elseif ($framework -match '^netcoreapp(\d+)\.\d+$') {
-                  $versions.Add("$($Matches[1]).x") | Out-Null
+                  $versions.Add([int]$Matches[1]) | Out-Null
                 }
               }
             }
@@ -47,8 +47,10 @@ runs:
         if ($versions.Count -eq 0) {
           Write-Host "No .NET versions found in the repository."
         } else {
+          # Sort versions in ascending order and convert to .x format
+          $sortedVersions = ($versions | Sort-Object) | ForEach-Object { "$_.x" }
           Write-Host "Found .NET versions:"
-          Write-Host $($versions | ConvertTo-Json -AsArray)
-          $versions | ConvertTo-Json -AsArray | Out-File -FilePath ${{ inputs.versions }} -Encoding utf8 -Force
+          Write-Host $($sortedVersions | ConvertTo-Json -AsArray)
+          $sortedVersions | ConvertTo-Json -AsArray | Out-File -FilePath ${{ inputs.versions }} -Encoding utf8 -Force
           Write-Host "Versions written to ${{ inputs.versions }}"
         }
